@@ -1,0 +1,15 @@
+﻿{
+  "recordingsDir": "./recordings",
+  "storageLimitGB": 50,
+  "channels": [
+    "example_channel"
+  ],
+  "recordings": [],
+  "telegram": {
+    "botToken": "YOUR_TELEGRAM_BOT_TOKEN",
+    "allowedChatIds": [
+      "YOUR_CHAT_ID"
+    ],
+    "enabled": false
+  }
+}

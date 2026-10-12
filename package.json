@@ -1,0 +1,25 @@
+{
+  "name": "tiktok-live-audio-recorder",
+  "version": "2.0.0",
+  "description": "Theo dõi và ghi âm live TikTok - GUI Dashboard",
+  "main": "dist/index.js",
+  "bin": "dist/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "bundle": "npx esbuild index.js --bundle --platform=node --target=node20 --outfile=dist/index.js",
+    "build": "npm run bundle && pkg . --targets node22-win-x64 --fallback-to-source --output TikTokRecorder.exe"
+  },
+  "pkg": {
+    "assets": [
+      "public/**/*"
+    ],
+    "outputPath": "dist"
+  },
+  "devDependencies": {
+    "@yao-pkg/pkg": "^6.0.0"
+  },
+  "dependencies": {
+    "tiktok-live-connector": "^2.4.0"
+  }
+}

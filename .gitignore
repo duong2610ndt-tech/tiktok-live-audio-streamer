@@ -1,0 +1,12 @@
+﻿node_modules/
+recordings/
+RecordFile/
+logs/
+*.log
+*.exe
+*.zip
+*.rar
+dist/
+.env
+.DS_Store
+Thumbs.db

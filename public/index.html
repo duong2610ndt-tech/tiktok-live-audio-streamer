@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TikTok Live Audio Recorder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient Background -->
+  <div class="ambient-bg">
+    <div class="glow-orb pink"></div>
+    <div class="glow-orb cyan"></div>
+  </div>
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar glass-panel">
+      <div class="logo-area">
+        <div class="logo-icon-wrapper">
+          <span class="logo-icon">🎙️</span>
+        </div>
+        <div class="logo-text">
+          <h1>TikTok Live</h1>
+          <p>Audio Recorder</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#channels-section" class="nav-item active" data-target="channels-section">📺 Quản lý kênh</a>
+        <a href="#history-section" class="nav-item" data-target="history-section">⏳ Lịch sử</a>
+        <a href="#settings-section" class="nav-item" data-target="settings-section">⚙️ Cài đặt</a>
+        <a href="#telegram-section" class="nav-item" data-target="telegram-section">🤖 Telegram</a>
+        <a href="#logs-section" class="nav-item" data-target="logs-section">📝 System Logs</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-indicator">
+          <span class="status-dot green"></span>
+          <span class="status-text">Đang chạy</span>
+        </div>
+        <button id="shutdown-btn" class="btn danger full-width mt-10">🔌 Tắt Server</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Section: Channels -->
+      <section id="channels-section" class="content-section active">
+        <div class="section-header">
+          <h2>📺 Quản lý kênh</h2>
+          <div class="card add-channel-card glass-panel-sm">
+             <form id="add-channel-form" class="flex-row">
+               <input type="text" id="channel-username" placeholder="Nhập ID kênh TikTok (vd: therock)..." required>
+               <button type="submit" class="btn primary btn-icon">➕ Thêm</button>
+             </form>
+          </div>
+        </div>
+        <div id="channels-container" class="channels-grid">
+          <!-- Channel items will be injected here -->
+        </div>
+      </section>
+
+      <!-- Section: History -->
+      <section id="history-section" class="content-section">
+        <div class="section-header flex-between">
+          <h2>⏳ Lịch sử ghi âm</h2>
+          <button id="reload-history-btn" class="btn secondary">🔄 Tải lại</button>
+        </div>
+        <div class="card glass-panel table-container">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Kênh</th>
+                <th>Tên file</th>
+                <th>Thời lượng</th>
+                <th>Dung lượng</th>
+                <th>Thời gian</th>
+              </tr>
+            </thead>
+            <tbody id="history-body">
+              <!-- History items -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section: Settings -->
+      <section id="settings-section" class="content-section">
+        <div class="section-header">
+          <h2>⚙️ Cài đặt hệ thống</h2>
+        </div>
+        <div class="card settings-card glass-panel">
+          <form id="settings-form">
+            <div class="form-group">
+              <label for="recordings-dir">Thư mục lưu file (.m4a):</label>
+              <div class="input-with-btn">
+                <input type="text" id="recordings-dir" placeholder="Ví dụ: D:\TikTok recordings" required>
+                <button type="submit" class="btn primary">Lưu</button>
+              </div>
+            </div>
+            <div class="storage-info mt-20">
+              <div class="storage-label">
+                <span>Dung lượng đã dùng:</span>
+                <span id="storage-text">0 GB / 50 GB</span>
+              </div>
+              <div class="progress-bar-container">
+                <div id="storage-progress" class="progress-bar" style="width: 0%"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Section: Telegram -->
+      <section id="telegram-section" class="content-section">
+        <div class="section-header">
+          <h2>🤖 Cấu hình Telegram Bot</h2>
+        </div>
+        <div class="card telegram-card glass-panel">
+          <form id="telegram-form">
+            <div class="toggle-group">
+              <label class="toggle-switch">
+                <input type="checkbox" id="tg-enabled">
+                <span class="slider"></span>
+              </label>
+              <span class="toggle-label">Kích hoạt thông báo</span>
+            </div>
+            
+            <div class="form-group mt-15">
+              <label for="tg-token">Bot Token:</label>
+              <input type="password" id="tg-token" placeholder="Nhập Token từ BotFather">
+            </div>
+            
+            <div class="form-group mt-15">
+              <label>Chat ID cá nhân được phép (Whitelist):</label>
+              <div class="input-with-btn">
+                <input type="text" id="tg-chat-id-input" placeholder="Nhập Chat ID">
+                <button type="button" id="tg-add-chat-id-btn" class="btn success">+</button>
+              </div>
+              <div id="tg-chat-ids-list" class="chat-ids-list mt-10">
+                <!-- Chat IDs list -->
+              </div>
+            </div>
+            
+            <div class="actions-row mt-20">
+              <button type="submit" class="btn primary">Lưu cấu hình</button>
+              <button type="button" id="tg-test-btn" class="btn warning">📨 Gửi thử</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Section: Logs -->
+      <section id="logs-section" class="content-section">
+        <div class="section-header flex-between">
+          <h2>📝 System Logs</h2>
+          <button id="clear-logs-btn" class="btn text-btn">Xóa logs</button>
+        </div>
+        <div class="card glass-panel">
+          <div id="logs-container" class="logs-console"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
